@@ -124,7 +124,14 @@
   border-radius: 3px;
 }
 
+.todo-item {
+  width: 100%;
+}
+
 .todo-item input {
+  display: block;
+  width: 100%;
+  appearance: none;
   height: 35px;
   outline: none;
   border: #fdd281 1px solid;
@@ -159,11 +166,5 @@
 @media (min-width: 500px) {
   .display-on-desktop {
     display: inline;
-  }
-}
-
-@media (max-width: 360px) {
-  .todo-item input {
-    max-width: 40vw;
   }
 }
