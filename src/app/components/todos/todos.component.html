@@ -7,12 +7,44 @@
       class="todo-input"
       [(ngModel)]="inputTodo"
     >
-    <input type="submit" value="Add Todo" class="todo-submit">
+    <input type="submit" value="+ Add Todo" class="todo-submit">
   </form>
   <div *ngFor="let todo of todos; let i = index;" class="todo {{ todo.completed ?
     'done' : '' }}">
-    <div class="id">{{ i + 1 }}</div>
-    <div class="content" (click)="toggleDone(i)">{{ todo.content }}</div>
-    <button class="delete" (click)="deleteTodo(i)">Remove</button>
+    <div class="content">
+      <div class="custom-checkbox" (click)="toggleDone(i)">
+        <ng-container *ngIf="todo.completed">
+          <ng-icon name="heroCheck"></ng-icon>
+        </ng-container>
+      </div>
+      <div class="todo-item">
+        <ng-container *ngIf="todo.editing; else displayText">
+          <form (submit)="saveTodo(i)" class="edit-form">
+            <input type="text" name="editingTodoInput" [(ngModel)]="editingTodoInput" value="{{ todo.content }}"/>
+          </form>
+        </ng-container>
+        <ng-template #displayText>
+          <p (click)="toggleDone(i)">{{ todo.content }}</p>
+        </ng-template>
+      </div>
+    </div>
+
+    <ng-container *ngIf="!todo.editing; else displaySave">
+      <button class="edit" (click)="editTodo(i)">
+        <ng-icon name="heroPencilSquare"></ng-icon>
+        <span class="display-on-desktop">Edit</span>
+      </button>
+    </ng-container>
+    <ng-template #displaySave>
+      <button class="save" (click)="saveTodo(i)">
+        <ng-icon name="heroCheckCircle"></ng-icon>
+        <span class="display-on-desktop">Save</span>
+      </button>
+    </ng-template>
+
+    <button class="delete" (click)="deleteTodo(i)">
+      <ng-icon name="heroTrash"></ng-icon>
+      <span class="display-on-desktop">Remove</span>
+    </button>
   </div>
 </div>

@@ -9,23 +9,26 @@ import { Todo } from '../../models/Todo';
 export class TodosComponent implements OnInit {
   todos: Todo[] = [];
   inputTodo:string = "";
+  editingTodoInput:string = "";
   constructor() {}
   ngOnInit() {
     this.todos = [
       {
-        content: 'First todo',
-        completed: false
+        content: 'Write to Agneta',
+        completed: false,
+        editing: false
       },
       {
-        content: 'Second todo',
-        completed: false
+        content: 'Have a wonderful day',
+        completed: false,
+        editing: true
       }
     ]
   }
 
   toggleDone (id: number) {
     this.todos.map((v, i) => {
-      if (i === id) v.completed = !v.completed;
+      if (i === id && !v.editing) v.completed = !v.completed;
       return v;
     })
   }
@@ -34,11 +37,35 @@ export class TodosComponent implements OnInit {
     this.todos = this.todos.filter((v, i) => i !== id);
   }
 
+  editTodo(id: number) {
+    this.todos.map((v, i) => {
+      if (i === id) {
+        v.editing = true;
+        this.editingTodoInput = v.content;
+      } else {
+        v.editing = false;
+      }
+      return v;
+    })
+  }
+
+  saveTodo(id: number) {
+    if (this.editingTodoInput === "") return;
+    this.todos.map((v, i) => {
+      if (i === id) {
+        v.content = this.editingTodoInput;
+        v.editing = false;
+      }
+      return v;
+    })
+  }
+
   addTodo () {
     if (this.inputTodo !== "") {
       this.todos.push({
         content: this.inputTodo,
-        completed: false
+        completed: false,
+        editing: false
       });
       this.inputTodo = "";
     }
