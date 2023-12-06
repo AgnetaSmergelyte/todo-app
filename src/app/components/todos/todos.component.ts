@@ -21,7 +21,7 @@ export class TodosComponent implements OnInit {
       {
         content: 'Have a wonderful day',
         completed: false,
-        editing: true
+        editing: false
       }
     ]
   }

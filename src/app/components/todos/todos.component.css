@@ -28,7 +28,7 @@
   gap: 10px;
 }
 
-.todo .content span {
+.todo .content p {
   cursor: pointer;
 }
 
