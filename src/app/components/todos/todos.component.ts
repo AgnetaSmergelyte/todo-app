@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Todo } from '../../models/Todo';
 
 @Component({
@@ -6,24 +6,42 @@ import { Todo } from '../../models/Todo';
   templateUrl: './todos.component.html',
   styleUrl: './todos.component.css'
 })
-export class TodosComponent implements OnInit {
+export class TodosComponent {
   todos: Todo[] = [];
   inputTodo:string = "";
   editingTodoInput:string = "";
-  constructor() {}
-  ngOnInit() {
-    this.todos = [
-      {
-        content: 'Write to Agneta',
-        completed: false,
-        editing: false
-      },
-      {
-        content: 'Have a wonderful day',
-        completed: false,
-        editing: false
+  constructor() {
+    this.loadTodosFromLocalStorage();
+  }
+
+  loadTodosFromLocalStorage(): void {
+    const storedData = localStorage.getItem('todo-list');
+
+    if (storedData) {
+      try {
+        const parsedData: Todo[] = JSON.parse(storedData);
+        if (Array.isArray(parsedData)) {
+          this.todos = parsedData;
+        } else {
+          console.error('Invalid data format in localStorage. Expected an array.');
+        }
+      } catch (error) {
+        console.error('Error parsing data from localStorage:', error);
       }
-    ]
+    } else {
+        this.todos = [
+          {
+            content: 'Write to Agneta',
+            completed: false,
+            editing: false
+          },
+          {
+            content: 'Have a wonderful day',
+            completed: false,
+            editing: false
+          }
+        ]
+    }
   }
 
   toggleDone (id: number) {
@@ -31,10 +49,12 @@ export class TodosComponent implements OnInit {
       if (i === id && !v.editing) v.completed = !v.completed;
       return v;
     })
+    localStorage.setItem('todo-list', JSON.stringify(this.todos));
   }
 
   deleteTodo(id: number) {
     this.todos = this.todos.filter((v, i) => i !== id);
+    localStorage.setItem('todo-list', JSON.stringify(this.todos));
   }
 
   editTodo(id: number) {
@@ -47,6 +67,7 @@ export class TodosComponent implements OnInit {
       }
       return v;
     })
+    localStorage.setItem('todo-list', JSON.stringify(this.todos));
   }
 
   saveTodo(id: number) {
@@ -58,6 +79,7 @@ export class TodosComponent implements OnInit {
       }
       return v;
     })
+    localStorage.setItem('todo-list', JSON.stringify(this.todos));
   }
 
   addTodo () {
@@ -69,6 +91,7 @@ export class TodosComponent implements OnInit {
       });
       this.inputTodo = "";
     }
+    localStorage.setItem('todo-list', JSON.stringify(this.todos));
   }
 
 }
