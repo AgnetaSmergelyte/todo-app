@@ -10,6 +10,7 @@ export class TodosComponent {
   todos: Todo[] = [];
   inputTodo:string = "";
   editingTodoInput:string = "";
+  errorMessage: string = "";
   constructor() {
     this.loadTodosFromLocalStorage();
   }
@@ -31,7 +32,7 @@ export class TodosComponent {
     } else {
         this.todos = [
           {
-            content: 'Write to Agneta',
+            content: 'Write a message to Agneta',
             completed: false,
             editing: false
           },
@@ -90,8 +91,11 @@ export class TodosComponent {
         editing: false
       });
       this.inputTodo = "";
+      this.errorMessage = "";
+      localStorage.setItem('todo-list', JSON.stringify(this.todos));
+    } else {
+      this.errorMessage = "Oops! It seems you missed something. Please enter a todo item before saving.";
     }
-    localStorage.setItem('todo-list', JSON.stringify(this.todos));
   }
 
 }

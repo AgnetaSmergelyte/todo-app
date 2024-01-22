@@ -163,6 +163,12 @@
   cursor: auto;
 }
 
+.error-message {
+  margin-top: 1rem;
+  color: #e32d65;
+  text-align: center;
+}
+
 @media (min-width: 500px) {
   .display-on-desktop {
     display: inline;
