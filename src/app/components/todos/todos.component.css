@@ -30,6 +30,7 @@
 
 .todo .content p {
   cursor: pointer;
+  word-break: break-all;
 }
 
 .todo.done .content p {
