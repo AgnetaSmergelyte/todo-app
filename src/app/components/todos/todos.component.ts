@@ -32,12 +32,12 @@ export class TodosComponent {
     } else {
         this.todos = [
           {
-            content: 'Write a message to Agneta',
+            content: 'Say hi to Agneta',
             completed: false,
             editing: false
           },
           {
-            content: 'Have a wonderful day',
+            content: 'Have a fantastic day',
             completed: false,
             editing: false
           }
